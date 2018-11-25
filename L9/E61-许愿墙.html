@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>许愿墙</title>
+    <style>
+        html,
+        body,
+        div,
+        p {
+            padding: 0;
+            margin: 0;
+        }
+
+        body {
+            background: red url(../imgs/bg.gif) repeat;
+            font: 12px/20px Arial, "simsun", "Tahoma", "sans-serif";
+
+        }
+
+        .wall {
+            width: 960px;
+            height: 627px;
+            background: red url(../imgs/content_bg.jpg) no-repeat;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .tip {
+            width: 227px;
+            position: absolute;
+            cursor: move;
+        }
+
+        .tip .tip_h {
+
+            height: 68px;
+            background: url(../imgs/tip1_h.gif) no-repeat;
+            position: relative;
+
+        }
+
+        .tip .tip_c {
+
+            height: 60px;
+            background: url(../imgs/tip1_c.gif) repeat-y;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .tip .tip_f {
+
+            height: 73px;
+            background: url(../imgs/tip1_f.gif) no-repeat;
+            text-align: right;
+            line-height: 73px;
+            color: blue;
+            padding-right: 20px;
+            font-size: 12px;
+        }
+
+        .tip .tip_h .head-msg {
+            padding-top: 40px;
+            padding-left: 10px;
+        }
+
+        .tip .tip_h .closeBtn {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="wall" class="wall">
+        <!-- <div class="tip">
+            <div class="tip_h">
+                <div class="head-msg">
+                    第[4445]条 2016-02-17 00:00:00
+                </div>
+                <i class="closeBtn">
+                    X
+                </i>
+
+            </div>
+            <div class="tip_c">
+                我学习的是老马视频
+                我学习的是老马视频
+                我学习的是老马视频
+                我学习的是老马视频
+            </div>
+            <div class="tip_f">
+                老马
+            </div>
+        </div> -->
+    </div>
+
+    <script>
+        var data = [{
+            "id": 1,
+            "name": "mahu",
+            "content": "今天你拿苹果支付了么",
+            "time": "2016-02-17 00:00:00"
+        },
+        {
+            "id": 2,
+            "name": "haha",
+            "content": "今天天气不错，风和日丽的",
+            "time": "2016-02-18 12:40:00"
+        },
+        {
+            "id": 3,
+            "name": "jjjj",
+            "content": "常要说的事儿是乐生于苦",
+            "time": "2016-03-18 12:40:00"
+        },
+        {
+            "id": 4,
+            "name": "9.8的妹纸",
+            "content": "把朋友家厕所拉堵了 不敢出去 掏了半小时了都",
+            "time": "2016-03-18 12:40:00"
+        },
+        {
+            "id": 5,
+            "name": "雷锋ii.",
+            "content": "元宵节快乐",
+            "time": "2016-02-22 12:40:00"
+        },
+        {
+            "id": 6,
+            "name": "哎呦哥哥.",
+            "content": "据说今晚央视的元宵晚会导演和春晚导演是同一个人，真是躲得过初一，躲不过十五。",
+            "time": "2016-02-22 01:30:00"
+        },
+        {
+            "id": 7,
+            "name": "没猴哥，不春晚",
+            "content": "班主任:“小明，你都十二岁了，还是三年级，不觉得羞愧吗”？。小明:“一点也不觉得，老师你都四十多岁了，不也是年年在三年级混日子吗？羞愧的应该是你”。老师:……",
+            "time": "2016-02-22 01:30:00"
+        },
+        {
+            "id": 8,
+            "name": "哎呦杰杰.",
+            "content": "真搞不懂你们地球人，月亮有什么好看的，全是坑，还是对面那哥们好看，",
+            "time": "2016-02-22 01:30:00"
+        },
+        {
+            "id": 9,
+            "name": "哎呦哎呦",
+            "content": "今天哪里的烟花最好看！！？答：朋友圈。。。",
+            "time": "2016-02-22 02:30:00"
+        }
+        ];
+
+        (function () {
+            var maxIndex = 1;
+            var tipArray = [];  //  存放所有的tip
+            var isMove = false; //  记录tip是否进行移动
+            var tempX = 0;
+            var tempY = 0;  //鼠标一开始点击的位置  x y
+            var moveNode = null;
+            window.onload = function () {
+                //  页面加载完成后，加载 数据生成tip div并添加到wall
+                loadTipDivs(data);
+
+                //  给所有的tip绑定mousedown事件，当点击的时候zIndex最大
+                for (var i = 0; i < tipArray.length; i++) {
+                    tipArray[i].onmousedown = function (e) {
+                        maxIndex += 1;
+                        this.style.zIndex = maxIndex;
+
+                        isMove = true;
+                        e = e || window.event;
+                        //  记录鼠标点击的位置，以及要进行设置移动的标志位
+                        tempX = e.clientX + (document.documentElement.scrollLeft || document.body.scrollLeft);
+                        tempY = e.clientY + (document.documentElement.scrollTop || document.body.scrollTop);
+
+                        moveNode = this;    //  把当前的移动的div设置成鼠标按下的对应的tip标签
+                    };
+
+                    tipArray[i].onmouseup = function (e) {
+                        isMove = false;
+                    };
+
+                    //  实现鼠标移动  tip跟着鼠标移动的代码
+                    tipArray[i].onmousemove = function (e) {
+                        e = e || window.event;
+                        
+                        var pageX = e.clientX + ( document.documentElement.scrollLeft || document.body.scrollLeft );
+                        var pageY = e.clientY + ( document.documentElement.scrollTop || document.body.scrollTop );
+
+                        var w = pageX - tempX;
+                        var h = pageY - tempY;
+
+                        if( isMove && moveNode == this){
+                            this.style.left = parseFloat(this.style.left) + w + "px";
+                            this.style.top = parseFloat(this.style.top) + h + "px";
+                        }
+                        
+                        tempX = pageX;
+                        tempY = pageY;
+                    };
+
+                }
+
+                //给所有的额tip的关闭按钮绑定点击事件
+                var closeBtns = document.getElementsByTagName("i");
+                for (var j = 0; j < closeBtns.length; j++) {
+                    closeBtns[j].onclick = function (e) {
+                        this.parentNode.parentNode.style.display = "none";
+                    };
+                }
+
+                //  
+
+
+            };
+
+            //  接受一个数组，创建tip的div
+            function loadTipDivs(data) {
+                var strHTMLArray = [];
+                for (var i = 0; i < data.length; i++) {
+                    //  拿到 每个 许愿的数据
+                    var itemData = data[i];
+                    var strHTML = "";
+
+                    strHTML += '<div class="tip">';
+                    strHTML += '<div class="tip_h">';
+                    strHTML += '<div class="head-msg">';
+                    strHTML += '第[' + itemData.id + ']条' + '  ' + itemData.time;
+                    strHTML += '</div>';//         
+                    strHTML += '<i class="closeBtn">';//         
+                    strHTML += 'X';//            
+                    strHTML += '</i>';//         
+                    strHTML += '</div>';//     
+                    strHTML += '<div class="tip_c">';//     
+                    strHTML += itemData.content;//         
+                    strHTML += '</div>';//     
+                    strHTML += '<div class="tip_f">';//     
+                    strHTML += itemData.name;//         
+                    strHTML += ' </div>';
+                    strHTML += '</div>';
+                    strHTMLArray.push(strHTML);
+                }
+                //  把所有的许愿div放到wall里面去
+                document.getElementById("wall").innerHTML += strHTMLArray.join("");
+                //  遍历wall里面所有的tip节点，设置一个随机left和top值
+                for (var i = 0; i < wall.childNodes.length; i++) {
+                    if (wall.childNodes[i].nodeType == 1) {
+                        wall.childNodes[i].style.left = Math.random() * (960 - 227) + "px";
+                        wall.childNodes[i].style.top = Math.random() * (627 - 221) + "px";
+                        wall.childNodes[i].style.zIndex = 1;    //默认所有的zIndex为1
+                        tipArray.push(wall.childNodes[i]);
+                    }
+                }
+            }
+
+
+
+
+
+        })();
+    </script>
+</body>
+
+</html>

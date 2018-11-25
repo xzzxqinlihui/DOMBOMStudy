@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>鼠标事件的区别</title>
+    <style>
+    div {
+        border: 1px solid #ccc;
+    }
+    p {
+        margin:20px;
+        border:1px solid red;
+    }
+    </style>
+</head>
+<body>
+    <div class="box" id="box">
+        <p>我观看的是老马视频</p>
+        <p>我观看的是老马视频</p>
+        <p>我观看的是老马视频</p>
+        <p>我观看的是老马视频</p>
+        <p>我观看的是老马视频</p>
+    </div>
+    <script>
+        // document.onDOMContentLoaded = function(){};
+        // document.onreadystatechange = function(){};
+    (function(){
+        window.onload =function(){
+            var  box = document.getElementById("box");
+            box.onmousedown = function(){
+                console.log("mousedown");   //  最先实行
+            };
+
+            box.onmouseup = function(){     //  其次执行
+                console.log("mouseup");
+            };
+
+            //  如果鼠标不是当前元素上up  那么就不会触发click
+            box.onclick = function(){
+                console.log("click");
+            };
+
+            //  当鼠标进入元素范围后，只执行一次，不会冒泡
+            box.onmouseenter = function(){
+                console.log("enter");
+            };
+
+            //  离开元素范围后，只执行一次，不会冒泡
+            box.onmouseleave = function(){
+                console.log("leave");
+            };
+
+            //  在元素或者子元素上面的时候回触发，回冒泡
+            box.onmouseover = function(e){
+                console.log("over");
+            };
+
+            //  离开子元素或者自身的时候回触发，回冒泡；
+            box.onmouseout = function(e){
+                console.log("out");
+            };
+        };
+    })();
+    
+    </script>
+</body>
+</html>

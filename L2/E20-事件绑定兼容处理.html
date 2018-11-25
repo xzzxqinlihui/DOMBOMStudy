@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件绑定兼容处理</title>
+</head>
+<body>
+    <input type="button" value="点击" id="btn">
+    <script>
+    //  兼容ie和其他浏览器
+    var btn = document.querySelector("#btn");
+
+    //  所有刘浏览器都兼容DO0的注册绑定事件的方法
+    //  btn.onclick = funtion(){
+        // alert("ok");
+    // };
+
+    //  兼容ie浏览器和其他浏览器的兼容方法
+
+    if( btn.addEventListener ){
+        btn.addEventListener( "click",clickHandler );
+    }else{
+        btn.attachEvent( "onclick",clickHandler );
+    }
+    
+    function clickHandler(){
+        alert( "兼容处理" );
+    }
+    </script>
+</body>
+</html>

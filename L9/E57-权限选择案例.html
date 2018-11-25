@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>权限选择</title>
+    <script src="../js/documentReady.js"></script>
+    <script src="../js/EventUtil.js"></script>
+    <style>
+    select {
+        width: 100px;
+        height: 200px;
+        float: left;
+    }
+    .box {
+        width: 100px;
+        float: left;
+        text-align: center;
+    }
+    input {
+        width: 51px;
+    }
+    
+    </style>
+</head>
+<body>
+    <select name="l" id="l" multiple="multiple">
+        <option value="1">添加商品</option>
+        <option value="2">读取商品</option>
+        <option value="3">修改商品</option>
+        <option value="4">删除订单</option>
+        <option value="5">用户查看</option>
+    </select>
+
+    <div class="box" id="box">
+        <input type="button" value=">" id="" dir="add">
+        <input type="button" value=">>" id="" dir="addAll">
+        <input type="button" value="<" id="" dir="del">
+        <input type="button" value="<<" id="" dir="delAll">
+    </div>
+    <select name="r" id="r" multiple="multiple">
+
+    </select>
+
+    <script>
+    (function(){
+        document.myReady(function(){
+            //  下面给四个input按钮绑定事件
+            var box = document.getElementById("box");
+            EventUtil.addEvent(box,"click",function(e){
+                //  拿到事件源对象
+                var target = EventUtil.getTarget(e);
+
+                if( target === this ){
+                    //  说明点击的是当前的div
+                    return;     //直接结束当前的点击事件处理程序
+                }
+
+                var dir = target.getAttribute("dir");
+
+                var l = document.getElementById("l");
+                var r = document.getElementById("r");
+
+                switch(dir) {
+                    case "add":
+                    add(false,l,r);
+                    break;
+                    case "addAll":
+                    add(true,l,r);
+                    break;
+                    case "del":
+                    add(false,r,l);
+                    break;
+                    case "delAll":
+                    add(true,r,l);
+                    break;
+                }
+            });
+        });
+        
+        //  接受三个参数，第一个参数是否全部进行移动
+        //  第二个和第三个参数是要处理的select标签
+        function add(isAll,sel1,sel2){
+            //  从sel1的option踢动到sel2的里面去
+            //  先把所有的需要移动到sel2里面的option都取到array
+            var tempArray = []; //  放要移动的选项的数组
+            for( var i = 0;i < sel1.options.length; i++ ){
+                if( isAll || sel1.options[i].selected ){
+                    tempArray.push( sel1.options[i] );
+                }
+            }
+            //  最后一步  要把要移动的选项放到sel2
+            while( tempArray.length > 0 ){
+                var opt = tempArray.pop();
+
+                //  ie
+                //  option的DOM选项对象都有index属性  就是索引
+                sel1.remove(opt.index);
+                sel2.add(opt,null);
+            }
+        }
+    })();
+    
+    </script>
+</body>
+</html>

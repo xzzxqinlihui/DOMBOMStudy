@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>文本框显示案例</title>
+</head>
+<body>
+    <input type="text" placeholder="老马" id="">
+    <input type="text" value="老马" id="txt2">
+    <script>
+    window.onload = function(){
+        var txt2 = document.getElementById("txt2");
+        //  文档加载完成后，直接设置提示文本为灰色
+        txt2.style.color = "#ccc";
+        //  文本框2 获得焦点时候，判断文本框值是否等于老马，如果是清空
+        txt2.onfocus = function(){
+            if( txt2.value == "老马" ){
+                txt2.value = "";
+
+                txt2.style.color = "#000";
+            }
+        };
+        //  文本框2 离开加点的时候，判断文本框的值是否为空，空则设置回老马
+        txt2.onblur = function(){
+            if( txt2.value == "" ){
+                txt2.value = "老马";
+
+                txt2.style.color = "#ccc";
+            }
+        };
+    };
+    
+    </script>
+</body>
+</html>

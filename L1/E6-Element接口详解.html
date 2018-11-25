@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Element接口详解</title>
+</head>
+<body>
+    <div id = "d1" class = "ts" laoma = "sss" >
+        <span>你好</span>
+        <p>大家好</p>
+    </div>
+    <script>
+    //  获取到id = d1 的div标签
+    var d1 = document.getElementById( "d1" );
+    //  d1 HTMLDivElement HTMLElement   Element
+
+    //  d1.attributes();    //属性
+    console.log( d1.attributes );
+    //  d1.attributesa(0)
+    console.log( d1.attributes.item(0) );
+
+    //  设置属性的值
+    d1.setAttribute( "laoma","123" );
+    console.log(d1.getAttribute("class"));
+
+    console.log( d1.className );
+    console.log( d1.id );
+
+    //  删除属性
+    d1.removeAttribute( "laoma" );
+    
+    </script>
+</body>
+</html>

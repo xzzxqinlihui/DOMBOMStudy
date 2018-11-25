@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动添加li标签效果</title>
+</head>
+<body>
+    <input id="btnAdd" type="button" value="添加">
+    <ul class="list">
+
+    </ul>
+    <script>
+    //  拿到btn按钮
+    var btnAdd = document.querySelector( "#btnAdd" );   //ie8开始支持
+    var index = 1;
+    btnAdd.addEventListener("click" ,function(){
+        //  拿到ul标签
+        var list = document.querySelector( ".list" );
+        list.innerHTML += "<li>" + index + "</li>";
+        index++;
+    },false);   //ie8都不支持
+    
+    </script>
+</body>
+</html>

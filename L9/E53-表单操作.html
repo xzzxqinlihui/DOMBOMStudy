@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>表单操作</title>
+</head>
+<body>
+    <div id="box">
+        <input type="text" name="" id="">
+        <input type="text" name="" id="">
+        <input type="text" value="22" id="">
+        <input type="text" name="" id="">
+        <input type="text" name="" id="">
+        <input type="radio" name="se" id="se1">
+        <label for="se1">选择1</label>
+        <input type="radio" name="se" id="se2">
+        <label for="se2">选择2</label>
+
+    </div>
+    <script>
+    ;(function(){
+        window.onload = function(){
+            var box = document.getElementById("box");
+            var inputList = box.getElementsByTagName("input");
+            inputList[2].onclick = function(){
+                alert(this.value);
+            };
+        };
+    })();
+    
+    </script>
+</body>
+</html>

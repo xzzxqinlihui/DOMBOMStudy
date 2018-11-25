@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>事件流</title>
+    <style>
+    div {
+        border:1px solid red;
+    }
+    
+    .parent {
+        height: 200px;
+        width: 200px;
+        padding: 30px;
+        background-color: pink;
+    }
+    .child {
+        height: 100px;
+        width: 100px;
+        background-color: yellow;
+    }
+    
+    </style>
+</head>
+<body>
+    <div class="parent">
+        我是父div
+        <div class="child">
+            我是子div
+        </div>
+    </div>
+
+    <script>
+    //  事件流  本案例会发生冒泡
+    //  点击了子元素标签的时候，父元素绑定的点击事件也会被执行：原因事件魔炮
+    //  给父元素绑定一个点击事件  点击子元素，看是否事件响应方法执行
+
+    var parentDiv = document.querySelector( ".parent" );
+
+    parentDiv.onclick = function(){
+        alert( "我是父div触发" );
+    };
+    
+    window.onclick = function(){
+        alert( "我是window触发" );
+    }
+    </script>
+</body>
+</html>

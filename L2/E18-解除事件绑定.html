@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>解除事件绑定</title>
+</head>
+<body>
+    <input type="button" value="点击按钮" id="btnClick">
+    <input type="button" value="解除绑定事件" id="btnRemove">
+    
+    <input type="button" value="按钮3" id="btn3">
+    <script>
+        var btnClick = document.querySelector("#btnClick");
+        var btnRemove = document.querySelector("#btnRemove");
+
+        //  DOM0绑定事件
+        btnClick.onclick = function(){
+            alert( "DOM0 级点击事件" );
+        };
+
+        //  DOM2绑定事件
+        btnRemove.addEventListener("click",function(){
+            //  给btnClick按钮的DOM0事件解除绑定
+            btnClick.onclick = null;
+            //  给btnClick按钮解绑DOM2级别的事件
+            btnClick.removeEventListener("click",btnClickHander);
+        });
+
+        //  DOM2级事件绑定和解绑
+        btnClick.addEventListener("click",btnClickHander);
+        
+        //  事件处理程序
+        function btnClickHander(){
+            alert("DOM2级的绑定事件");
+        }
+    
+        //以下方法不正确  因为两个function不是同一对象
+        var btn3 = document.querySelector("#btn3");
+        btn3.addEventListener('click',function(){
+            alert("3");
+        });
+        btn3.removeEventListener('click',function(){
+            alert("3");
+        });
+
+    </script>
+</body>
+</html>

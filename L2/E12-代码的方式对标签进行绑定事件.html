@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>绑定事件</title>
+</head>
+<body>
+    <div id = "tm">
+        前端学习视频
+    </div>
+
+    <script>
+    //  第一步拿到  要绑定事件的div
+    var d = document.querySelector( "#tm" );    ///id选择器
+    d.onclick = function(){
+        alert( "123" );
+    };
+    //  事件的三个要素：1div对象  2onclick  3行为 匿名函数
+
+    //这种绑定事件的方式，只能绑定一个方法
+    // d.onclick = function(){
+    //     console.log( 1 );
+    // };
+    </script>
+</body>
+</html>

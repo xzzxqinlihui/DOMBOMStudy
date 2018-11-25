@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>动态创建菜单案例</title>
+    <script src="../js/documentReady.js"></script>
+    <script src="../js/EventUtil.js"></script>
+</head>
+<body>
+    <ul id="menu" >
+
+    </ul>
+    <script>
+    //  数据：
+    var data = [
+      {name:'首页', url:'/index.html', id: 1},
+      {name:'关于', url:'/about.html', id: 2},
+      {name:'产品', url:'/product.html', id: 3},
+      {name:'案例', url:'/usecase.html', id: 4},
+      {name:'联系', url:'/contact.html', id: 5}
+    ];
+    
+    //  页面加载完成后动态加载标签数据
+    document.myReady(function(){
+        loadMenu(); //初始化菜单数据
+    });
+
+
+    //加载数据菜单
+    function loadMenu(){
+        //  获得ul
+        var menu = document.getElementById("menu");
+        //   {name:'首页', url:'/index.html', id: 1},
+        // ==>  <li id="menu1"><a href="/index.html">首页</a></li>
+        for( var i=0;i < data.length;i++ ){
+            //  创建li标签节点
+            var liElement = document.createElement("li");
+            //  给li设置id属性
+            liElement.setAttribute( "id","menu" + data[i].id );
+            //  创建a标签
+            var menuLinkElement = document.createElement("a");
+            //  给a设置超链接属性
+            menuLinkElement.setAttribute("href",data[i].url);
+
+            // menuLinkElement.innerHTML = data[i].name;   //所有浏览器兼容
+            //  设置内容
+            if( menuLinkElement.textContent ){
+                menuLinkElement.textContent = data[i].name;
+            }else{
+                menuLinkElement.innerText = data[i].name;
+            }
+            //  把a标签加到li标签下
+            liElement.appendChild( menuLinkElement );
+            //  把li标签加到ul标签中去
+            menu.appendChild( liElement );
+        }
+    }
+    
+    </script>
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>阻止事件冒泡</title>
+  <style>
+    div {
+      border: 1px solid saddlebrown;
+      height: 200px;
+      width: 200px;
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="parent" id="pDiv">
+    <input type="button" value="点击" id='btn'>
+  </div>
+
+  <script>
+    var btn = document.getElementById('btn');
+
+    // 阻止事件冒泡
+    btn.onclick = function(e) {
+      alert('btn');
+      // 兼容ie和标准浏览器。
+      e = e || window.event;
+
+      // 判断是否是点击自己
+      if(e.target === this || e.srcElement === this ) {
+
+        // 取消事件冒泡
+        if(e.stopPropagation) {
+          e.stopPropagation();  // 标准浏览器用的
+        } else {
+          e.cancleBubble = false;  // ie6-8浏览器使用cancleBubble属性设置false
+        }
+      }
+    };
+
+
+    // div的绑定点击事件
+    var pDiv = document.getElementById('pDiv');
+    pDiv.onclick = function(e) {
+      alert('div');
+    }
+  </script>
+
+</body>
+</html>

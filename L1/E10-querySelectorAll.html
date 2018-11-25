@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>querySelectorAll用法</title>
+</head>
+<body>
+    <p>ss1</p>
+    <p class = "tm">ss2</p>
+    <p class = "tm">ss3</p>
+
+
+    <script>
+    //  querySelectorAll案例
+    //  把页面中所有的p标签包含tm像是类的标签选出来
+    var arr = document.querySelectorAll( "p.tm" );
+    //  arr 伪数组不会自动更新
+    //  arr 是一个NodeList接口的示例。NodeList的原型是 Object.prototype
+    console.log( arr );
+
+    //  用forEach接收一个函数对数组中的元素进行处理
+    //  函数第一个参数是数组的元素，第二个参数是元素对应的索引
+    arr.forEach( function(elem,index){
+        console.log( index + ":" + elem.innerHTML );
+    } );
+
+    </script>
+</body>
+</html>

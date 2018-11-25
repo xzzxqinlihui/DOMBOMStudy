@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>轮播图</title>
+    <style>
+    html,body,div,ul,li {
+        padding: 0;
+        margin: 0;
+    }
+    ul,ol {
+        list-style: none;
+    }
+    a {
+        text-decoration: none;
+        color: #000;
+    }
+    .slideshow {
+        width: 500px;
+        height: 300px;
+        border:1px  solid #ccc;
+        margin: 100px auto;
+        overflow: hidden;
+        position: relative;
+    }
+    .slideshow .slide-img-wrap{
+        width: 2000px;
+        position: absolute;
+        z-index: 1;
+    }
+    .slideshow .slide-img-wrap li {
+        float: left;
+        width: 500px;
+    }
+    .slideshow .slide-img-wrap li img{
+        width: 500px;
+    }
+    .slideshow .slide-btn-wrap {
+        position: absolute;
+        z-index: 100;
+        top:50%;
+        left: 0;
+        height: 30px;
+        width: 500px;
+    }
+    .slideshow .slide-btn-wrap a {
+        color:#999;
+        width: 30px;
+        height: 30px;
+        font-size: 30px;
+        line-height: 30px;
+        text-align: center;
+        font-weight: bold;
+        background-color: rgba(99,99,99,0.5);
+        margin:5px;
+    }
+    .slideshow .slide-btn-wrap a:hover {
+        background-color: rgba(99,99,99,0.8);
+    }
+    .slideshow .slide-btn-wrap .next {
+        float:right;
+    }
+    .slideshow .slide-btn-wrap .prev {
+        float:left;
+    }
+
+    .slideshow .slide-sel-btn {
+        position: absolute;
+        top:80%;
+        height: 10px;
+        width: 64px;
+        z-index: 100;
+        left: 50%;
+        margin-left: -28px;
+    }
+    .slideshow .slide-sel-btn a {
+        border-radius: 50%;
+        background-color: #fff;
+        width: 8px;
+        height: 8px;
+        margin-right: 8px;
+        float: left;
+    }
+    .slideshow .slide-sel-btn a.on {
+        background-color: #999;
+    }
+
+    </style>
+</head>
+<body>
+    <div class="slideshow">
+        <!-- 滚动的图片 -->
+        <ul class="slide-img-wrap">
+            <li index="0" class="on"><a  href="#" ><img src="../imgs/1.jpg" alt=""></a></li>
+            <li index="1"><a  href="#"><img src="../imgs/2.jpg" alt=""></a></li>
+            <li index="2"><a  href="#"><img src="../imgs/3.jpg" alt=""></a></li>
+            <li index="3"><a href="#"><img src="../imgs/4.jpg" alt=""></a></li>
+        </ul>
+
+        <!-- 上一张和下一张的按钮 -->
+        <div class="slide-btn-wrap">
+            <a  href="#" class="prev">&lt;</a>
+            <a  href="#" class="next">&gt;</a>
+        </div>
+
+        <div class="slide-sel-btn">
+            <a index="0" href="#" class="on"></a>
+            <a index="1" href="#"></a>
+            <a index="2" href="#"></a>
+            <a index="3" href="#"></a>
+        </div>
+    </div>
+
+    <script>
+    (function(){
+        window.onload = function(){
+            var btnNext = document.querySelector(".slide-btn-wrap .next");
+            btnNext.onclick = function(e){
+                //  滑动到 下一张 图片
+               var curLi = document.querySelector(".slide-img-wrap .on");
+               var curIndex = curLi.getAttribute("index");
+               curIndex = parseInt( curIndex );
+               console.log(curIndex);
+
+                //  让索引进行循环
+                var nextIndex = (curIndex + 1) % 4;
+
+                var nextLeft = nextIndex * (-500);
+               //   要让下一个图片的左侧  放到盒子的最左侧
+               var imgList = document.querySelector(".slide-img-wrap");
+                //  imgList.style.left = (imgList.offsetLeft - 500 ) + "px";
+                imgList.style.left = nextLeft + "px";
+
+                //  把li标签和a标签中的class 中的on设置一下
+                var liArray = document.querySelectorAll(".slide-img-wrap li");
+                liArray[curIndex].className = "n"; 
+                liArray[nextIndex].className = "on"; 
+
+                var slideSelBtnArray = document.querySelectorAll(".slide-sel-btn a");
+                slideSelBtnArray[curIndex].className = "";
+                slideSelBtnArray[nextIndex].className = "on";
+
+                autoSlide();
+            }; 
+
+            var btnPrev = document.querySelector(".slide-btn-wrap .prev");
+            btnPrev.onclick = function(e){
+                   //  滑动到 上一张 图片
+               var curLi = document.querySelector(".slide-img-wrap .on");
+               var curIndex = curLi.getAttribute("index");
+               curIndex = parseInt( curIndex );
+               console.log(curIndex);
+
+                //  让索引进行循环
+                var prevIndex = (curIndex - 1 + 4) % 4;
+
+                var prevLeft = prevIndex * (-500);
+               //   要让下一个图片的左侧  放到盒子的最左侧
+               var imgList = document.querySelector(".slide-img-wrap");
+                //  imgList.style.left = (imgList.offsetLeft - 500 ) + "px";
+                imgList.style.left = prevLeft + "px";
+
+                //  把li标签和a标签中的class 中的on设置一下
+                var liArray = document.querySelectorAll(".slide-img-wrap li");
+                liArray[curIndex].className = "n"; 
+                liArray[prevIndex].className = "on"; 
+
+                var slideSelBtnArray = document.querySelectorAll(".slide-sel-btn a");
+                slideSelBtnArray[curIndex].className = "";
+                slideSelBtnArray[prevIndex].className = "on";
+
+                autoSlide();
+            };
+
+            //  具体选中圆圈的跳转页面
+            var selBtnDiv = document.querySelector(".slide-sel-btn");
+            selBtnDiv.onclick = function(e){
+                e = e || window.event;
+                var target = e.target || e.srcElement;
+                if(target == this){
+                    return;
+                }
+                //  如果是点击了元素a标签
+                var nextIndex = target.getAttribute("index");
+                nextIndex = parseInt( nextIndex );
+
+                //  设置为on的样式类的a标签
+                var curA = document.querySelector( ".slide-sel-btn .on" );
+                var curIndex = curA.getAttribute( "index" );
+                curIndex = parseInt( curIndex );
+
+                slide( curIndex,nextIndex );
+                autoSlide();
+            };
+            
+            //  自动轮播
+            autoSlide();
+
+            var timer;
+            //  实现自动轮播的方法
+            function autoSlide(){
+                //先去掉时钟
+                if(timer){
+                    clearInterval(timer);
+                    timer = null;
+                }
+               timer =  setInterval( function(){
+                slideShowNext();
+                },2000 );
+            }
+            
+            function slideShowNext(){
+                 //  滑动到 下一张 图片
+               var curLi = document.querySelector(".slide-img-wrap .on");
+               var curIndex = curLi.getAttribute("index");
+               curIndex = parseInt( curIndex );
+               console.log(curIndex);
+
+                //  让索引进行循环
+                var nextIndex = (curIndex + 1) % 4;
+                slide( curIndex,nextIndex );
+            }
+
+            function slide( curIndex,nextIndex ){
+                var imgList = document.querySelector(".slide-img-wrap");
+                var nextLeft = nextIndex * (-500);
+                var curLeft = imgList.offsetLeft;
+                //  动画轮播
+                slideAnimate( curLeft,nextLeft,imgList,300 );
+               //   要让下一个图片的左侧  放到盒子的最左侧
+                //  imgList.style.left = (imgList.offsetLeft - 500 ) + "px";
+                // imgList.style.left = nextLeft + "px";
+
+                //  把li标签和a标签中的class 中的on设置一下
+                var liArray = document.querySelectorAll(".slide-img-wrap li");
+                liArray[curIndex].className = "n"; 
+                liArray[nextIndex].className = "on"; 
+
+                var slideSelBtnArray = document.querySelectorAll(".slide-sel-btn a");
+                slideSelBtnArray[curIndex].className = "";
+                slideSelBtnArray[nextIndex].className = "on";
+            }
+
+
+            //  对元素进行连续的滚动
+            function slideAnimate( curLeft,endLeft,element,duration ){
+                var w = endLeft - curLeft;
+                var wPerMS = w / duration;
+                var startTime = Date.now();
+
+                var animateTimer  = setInterval( function(){
+                    var curTime = Date.now();
+                    //  每一帧直接的事件间隔
+                    var delateTime = curTime - startTime;
+
+                    element.style.left = (element.offsetLeft + delateTime * wPerMS) + "px";
+
+                    duration = duration - delateTime;
+
+                    if( duration <= 0 ){
+                        element.style.left = endLeft + "px";
+                        clearInterval( animateTimer );
+                        return;
+                    }
+
+                    startTime = curTime;
+                    
+                },1000/60 );
+
+            }
+        };
+    })();
+    
+    
+    </script>
+</body>
+</html>

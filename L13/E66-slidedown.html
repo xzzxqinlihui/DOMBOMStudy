@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>slidedown</title>
+    <style>
+        html,body,div {
+        margin: 0;
+        padding: 0;
+    }
+    .wrap {
+        margin:0 auto;
+        width: 960px;
+    }
+    .box {
+        border:1px solid red;
+        width: 300px;
+        height: 300px;
+        background-color: #eee;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="wrap">
+        <input type="button" value="折叠" id="btnSlideUp">
+        <input type="button" value="展开" id="btnSlideDown">
+        <div class="box" id="box">
+            我是box
+        </div>
+
+    </div>
+    <script>
+    (function(){
+        window.onload = function(){
+            var btnSlideUp = document.getElementById("btnSlideUp"),
+                btnSlideDown = document.getElementById("btnSlideDown"),
+                box = document.getElementById("box");
+
+            //  点击折叠按钮后，让div一点一点进行折叠
+            btnSlideUp.onclick = function(e){
+                var start = Date.now(); //返回当前时间的utc 1970毫秒数
+            //  随着时间推移，让div的高度一致减小，最后为0  display:none
+                var originH = box.clientHeight; //拿到显示的高度  div height
+                //  1秒钟后  div消失  1000ms
+              var timer = setInterval(function(){
+                //   var now = Date.now();
+                //   console.log( now - start );   //连个时间相差的毫秒数
+                //   start = now;
+            //  思路一  当前时间和上一次执行的相隔时间执行div减少高度操作
+
+
+            //  思路二  当前时间跟最易开始的事件进行计算，把相差总时间换算成应该减少的高度
+            //  应该减少的高度，然后设置div的高度
+
+            var now = Date.now();
+
+            var nowH = originH - originH * ( now - start ) / 1000
+
+            box.style.height = nowH + "px";
+
+            if(nowH <= 0){
+                //  停止折叠，并且把当前div隐藏，并且把时钟去掉
+                box.style.display = "none";
+
+                box.style.height = originH +"px";   //隐藏后，还要把它恢复到原来的状态
+                clearInterval(timer);
+            }
+
+              },1000/60);
+            };
+
+
+            btnSlideDown.onclick = function(e){
+                var start = Date.now(); //  最开始的时间
+                //  如果div的display为none 那么 clientHeight 为0
+                box.style.display = "block";
+                var originH = box.clientHeight;
+                box.style.height = "0px";
+                var timer = setInterval(function(){
+                    var now = new Date();
+                    box.style.height = originH * ( now - start )/ 1000 + "px";
+                    if( originH * ( now - start )/ 1000 >= originH ){
+                        box.style.height = originH + "px";
+                        clearInterval(timer);
+                    }
+                },1000/60);
+
+            };
+
+        };
+    })();
+    
+    </script>
+</body>
+
+</html>

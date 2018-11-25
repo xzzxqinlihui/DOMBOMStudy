@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>E64-模态对话框.html</title>
+    <style>
+    html,body,div,input {
+        margin: 0;
+        padding: 0;
+    }
+    .dialog-wrap {
+        display:none;
+    }
+    .dialog{
+        border:1px solid #ccc;
+        width: 300px;
+        /* display: none; */
+        position: absolute;
+        background-color:#eee;
+        top:50%;
+        left:50%;
+        margin-left:-151px;
+        margin-top:-151px;
+        z-index: 1000;
+    }
+    
+    .dialog-h {
+        border-bottom: 1px solid #ccc;
+        height: 30px;
+        position: relative;
+    }
+    .dialog-h .btn-close {
+        position: absolute;
+        right:15px;
+        top:0px;
+        cursor: pointer;
+    }
+    .dialog-b {
+        height: 267px;
+
+    }
+    .dialog-cover{
+        /* 如果是一个div，父容器是body，而且是绝对定位，那么left bottom right top都设置为0 则会铺满整个屏幕 */
+        position: absolute;
+        top:0;
+        bottom:0;
+        right:0;
+        left:0;
+        background-color: #ddd;
+        z-index:100;
+        /* 设置透明 */
+        filter:alpha(opacity=50);
+        opacity:0.5;
+    }
+    
+    </style>
+</head>
+<body>
+    <input type="button" value="弹出对话框" id="btn">
+    <div class="dialog-wrap" id="dialogBox">
+        <div class="dialog-cover"></div>
+        <div class="dialog" id="dialog">
+            <div class="dialog-h">
+                <h3>对话框的头部</h3>
+                <i class="btn-close" id="btnClose">X</i>
+            </div>
+            <div class="dialog-b">
+                对话框的内容
+            </div>
+        </div>
+    </div>
+    
+
+    <script>
+    (function(){
+        window.onload = function(){
+            var btn = document.getElementById("btn");
+            btn.onclick = function(){
+                var divDialog = document.getElementById("dialogBox");
+                divDialog.style.display = "block";
+            };
+
+            var btnClose = document.getElementById("btnClose");
+            btnClose.onclick = function(){
+                this.parentNode.parentNode.parentNode.style.display = "none";
+            };
+        };
+    })();
+    
+    </script>
+</body>
+</html>

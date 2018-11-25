@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>阻止默认行为</title>
+</head>
+<body>
+    <a id="baidu" href="http://www.baidu.com">百度</a>
+    <script>
+        var baidu = document.getElementById("baidu");
+        baidu.onclick = function(e){
+            //  兼容处理事件对象
+            e = e || window.event;
+            //  标准浏览器
+            if(e.preventDefault){
+                e.preventDefault;   //阻止默认行为
+            }else{
+                e.returnValue = false;  //兼容IE8及其以下
+            }
+            return false;   //返回值给一个false，也可以实现阻止默认行为
+        };
+    </script>
+</body>
+</html>
